@@ -1,0 +1,36 @@
+// To get started, press Ctrl+Space to bring up the completion menu and view the available nodes.
+
+// You can also use the buttons in the sidebar to perform actions on nodes.
+// Actions currently available include:
+
+// * Enabling / disabling the node
+// * Adding the bus to a bus
+// * Removing the node
+// * Connecting ADC channels
+
+// For more help, browse the DeviceTree documentation at https://docs.zephyrproject.org/latest/guides/dts/index.html
+// You can also visit the nRF DeviceTree extension documentation at https://nrfconnect.github.io/vscode-nrf-connect/devicetree/nrfdevicetree.html
+
+/ {
+	lsm6dso_gpios {
+		compatible = "gpio-leds";
+		lsm6dsoCS: lsm6dso_CS {
+			gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
+			label = "LSM6DSO CS";
+		};
+		lsm6dsoINT1: lsm6dso_INT1 {
+			gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>;
+			label = "LSM6DSO INT1";
+		};
+		lsm6dsoINT2: lsm6dso_INT2 {
+			gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+			label = "LSM6DSO INT2";
+		};
+	};
+
+    aliases {
+        lsm6dsocs = &lsm6dsoCS;
+        lsm6dsoint1 = &lsm6dsoINT1;
+        lsm6dsoint2 = &lsm6dsoINT2;
+    };
+};
