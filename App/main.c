@@ -13,17 +13,9 @@
 
 void main(void)
 {
-	printk("Hello World! %s\n", CONFIG_BOARD);
-
 	Gpio_Init();
 	Spi_Init();
-
 	LSM6DSO_Init();
-
 	BLE_Init();
-
-
-
-
 }
 
