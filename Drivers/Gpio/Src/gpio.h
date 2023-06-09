@@ -3,9 +3,16 @@
 
 #include <zephyr/drivers/gpio.h>
 
+
+/*
+ * LED states
+ */
 #define GPIO_ON     (1U)
 #define GPIO_OFF    (0U)
 
+/*
+ * LED numbers
+ */
 #define GPIO_LED1   (0U)
 #define GPIO_LED2   (1U)
 #define GPIO_LED3   (2U)

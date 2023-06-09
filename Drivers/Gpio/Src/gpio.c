@@ -20,7 +20,7 @@
 #define GPIO_INTS_NUM   (2U)
 
 /*
- * Local objects
+ * Local configuration objects
  */
 static struct gpio_dt_spec leds[GPIO_LEDS_NUM] = { 
         GPIO_DT_SPEC_GET_OR(GPIO_LED_1, gpios, {0}),
@@ -36,6 +36,13 @@ static struct gpio_dt_spec int_pins[GPIO_INTS_NUM] = {
 
 static struct gpio_callback int_pins_cb[GPIO_INTS_NUM];
 
+/*!	
+ * \brief GPIO initialization function
+ *
+ * \param[in] None
+ *
+ * \retval None
+ */
 void Gpio_Init(void)
 {
     int ret;
@@ -86,6 +93,14 @@ void Gpio_Init(void)
 
 }
 
+/*!	
+ * \brief GPIO initialization function
+ *
+ * \param[in] led LED number
+ * \param[in] state LED state: GPIO_ON or GPIO_OFF
+ * 
+ * \retval None
+ */
 void Gpio_LedWrite(uint8_t led, int state)
 {
     gpio_pin_set_dt(&leds[led], state);
