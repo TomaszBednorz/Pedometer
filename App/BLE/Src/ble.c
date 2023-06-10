@@ -1,6 +1,5 @@
 #include "ble.h"
 #include "pedometer.h"
-#include "gpio.h"
 
 #include <zephyr/kernel.h>
 #include <zephyr/bluetooth/bluetooth.h>
@@ -14,8 +13,6 @@
 
 #define DEVICE_NAME             CONFIG_BT_DEVICE_NAME
 #define DEVICE_NAME_LEN         (sizeof(DEVICE_NAME) - 1)
-
-#define BLE_CON_STATUS_LED          (GPIO_LED1)
 
 /*
  * Static functions prototypes
@@ -180,8 +177,6 @@ static void on_connected(struct bt_conn *conn, uint8_t err)
 	}
 
 	printk("Connected\n");
-
-	Gpio_LedWrite(BLE_CON_STATUS_LED, GPIO_ON);
 }
 
 /*
@@ -190,8 +185,6 @@ static void on_connected(struct bt_conn *conn, uint8_t err)
 static void on_disconnected(struct bt_conn *conn, uint8_t reason)
 {
 	printk("Disconnected (reason %u)\n", reason);
-
-	Gpio_LedWrite(BLE_CON_STATUS_LED, GPIO_OFF);
 }
 
 
