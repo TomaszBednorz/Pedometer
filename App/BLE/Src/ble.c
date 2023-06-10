@@ -17,12 +17,12 @@
 /*
  * Static functions prototypes
  */
-static void BLE_acceleration_status_changed(const struct bt_gatt_attr *attr, uint16_t value);
-static void BLE_angular_rate_status_changed(const struct bt_gatt_attr *attr, uint16_t value);
-static void BLE_temperature_status_changed(const struct bt_gatt_attr *attr, uint16_t value);
-static void BLE_steps_status_changed(const struct bt_gatt_attr *attr, uint16_t value);
-static void on_connected(struct bt_conn *conn, uint8_t err);
-static void on_disconnected(struct bt_conn *conn, uint8_t reason);
+static void BLE_AccelerationStatusChanged(const struct bt_gatt_attr *attr, uint16_t value);
+static void BLE_AngularRateStatusChanged(const struct bt_gatt_attr *attr, uint16_t value);
+static void BLE_TemperatureStatusChanged(const struct bt_gatt_attr *attr, uint16_t value);
+static void BLE_StepsStatusChanged(const struct bt_gatt_attr *attr, uint16_t value);
+static void BLE_OnConnected(struct bt_conn *conn, uint8_t err);
+static void BLE_OnDisconnected(struct bt_conn *conn, uint8_t reason);
 
 
 /* 
@@ -34,25 +34,25 @@ BT_GATT_PRIMARY_SERVICE(BLE_UUID_VAL),
 			       BT_GATT_CHRC_NOTIFY,
 			       BT_GATT_PERM_NONE, NULL, NULL,
 			       NULL),
-	BT_GATT_CCC(BLE_acceleration_status_changed,
+	BT_GATT_CCC(BLE_AccelerationStatusChanged,
 		    BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
 	BT_GATT_CHARACTERISTIC(BLE_UUID_ANGULAR_RATE_VAL,
 			       BT_GATT_CHRC_NOTIFY,
 			       BT_GATT_PERM_NONE, NULL, NULL,
 			       NULL),
-	BT_GATT_CCC(BLE_angular_rate_status_changed,
+	BT_GATT_CCC(BLE_AngularRateStatusChanged,
 		    BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
  	BT_GATT_CHARACTERISTIC(BLE_UUID_TEMPERATURE_VAL,
 			       BT_GATT_CHRC_NOTIFY,
 			       BT_GATT_PERM_NONE, NULL, NULL,
 			       NULL),
-	BT_GATT_CCC(BLE_temperature_status_changed,
+	BT_GATT_CCC(BLE_TemperatureStatusChanged,
 		    BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
 	BT_GATT_CHARACTERISTIC(BLE_UUID_STEPS_VAL,
 			       BT_GATT_CHRC_NOTIFY,
 			       BT_GATT_PERM_NONE, NULL, NULL,
 			       NULL),
-	BT_GATT_CCC(BLE_steps_status_changed,
+	BT_GATT_CCC(BLE_StepsStatusChanged,
 		    BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
 );
 
@@ -77,8 +77,8 @@ static const struct bt_data sd[] = {
 };
 
 struct bt_conn_cb connection_callbacks = {
-    .connected              = on_connected,
-    .disconnected           = on_disconnected,  
+    .connected              = BLE_OnConnected,
+    .disconnected           = BLE_OnDisconnected,  
 };
 
 /*!	
@@ -137,7 +137,7 @@ void BLE_Thread(void)
 /*
  * Callback for acceleration configuration change
  */
-static void BLE_acceleration_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
+static void BLE_AccelerationStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_ACCELERATION] = (value == BT_GATT_CCC_NOTIFY);
 }
@@ -145,7 +145,7 @@ static void BLE_acceleration_status_changed(const struct bt_gatt_attr *attr, uin
 /*
  * Callback for angfular rate configuration change
  */
-static void BLE_angular_rate_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
+static void BLE_AngularRateStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_ANGULAR_RATE] = (value == BT_GATT_CCC_NOTIFY);
 }
@@ -153,7 +153,7 @@ static void BLE_angular_rate_status_changed(const struct bt_gatt_attr *attr, uin
 /*
  * Callback for temperature configuration change
  */
-static void BLE_temperature_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
+static void BLE_TemperatureStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_TEMPERATURE] = (value == BT_GATT_CCC_NOTIFY);
 }
@@ -161,7 +161,7 @@ static void BLE_temperature_status_changed(const struct bt_gatt_attr *attr, uint
 /*
  * Callback for steps configuration change
  */
-static void BLE_steps_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
+static void BLE_StepsStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_STEPS] = (value == BT_GATT_CCC_NOTIFY);
 }
@@ -169,7 +169,7 @@ static void BLE_steps_status_changed(const struct bt_gatt_attr *attr, uint16_t v
 /*
  * Connection callback
  */
-static void on_connected(struct bt_conn *conn, uint8_t err)
+static void BLE_OnConnected(struct bt_conn *conn, uint8_t err)
 {
 	if (err) {
 		printk("Connection failed (err %u)\n", err);
@@ -182,7 +182,7 @@ static void on_connected(struct bt_conn *conn, uint8_t err)
 /*
  * Cisconnection callback
  */
-static void on_disconnected(struct bt_conn *conn, uint8_t reason)
+static void BLE_OnDisconnected(struct bt_conn *conn, uint8_t reason)
 {
 	printk("Disconnected (reason %u)\n", reason);
 }
