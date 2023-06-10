@@ -16,5 +16,5 @@
 - [x] BLE (abstraction layer)
 - [x] Pedometer(abstraction layer)
 ### Others
-- [ ] Comments in the software
+- [x] Comments in the software
 - [ ] Documentation
