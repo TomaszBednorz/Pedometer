@@ -3,6 +3,10 @@
 
 #include <zephyr/types.h>
 
+
+/*
+ * UUID (Universally Unique Identifier) definisions
+ */
 #define BLE_UUID_SERVICE              BT_UUID_128_ENCODE(0x00001523, 0x1112, 0xefde, 0x1523, 0x785feabcd123)
 #define BLE_UUID_ACCELERATION_CHAR    BT_UUID_128_ENCODE(0x00001524, 0x1112, 0xefde, 0x1523, 0x785feabcd123)
 #define BLE_UUID_ANGULAR_RATE_CHAR    BT_UUID_128_ENCODE(0x00001525, 0x1112, 0xefde, 0x1523, 0x785feabcd123)
@@ -15,7 +19,9 @@
 #define BLE_UUID_TEMPERATURE_VAL      BT_UUID_DECLARE_128(BLE_UUID_TEMPERATURE_CHAR)
 #define BLE_UUID_STEPS_VAL            BT_UUID_DECLARE_128(BLE_UUID_STEPS_CHAR)
 
-
+/*
+ * Available characteristics
+ */
 typedef enum
 {
     BLE_CHAR_ACCELERATION = 0,
@@ -25,9 +31,9 @@ typedef enum
     BLE_CHAR_MAX
 }BLE_Characteristic_t;
 
-
-
-
+/*
+ * Functions prototypes
+ */
 void BLE_Init(void);
 
 #endif

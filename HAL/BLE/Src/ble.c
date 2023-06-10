@@ -17,6 +17,9 @@
 
 #define BLE_CON_STATUS_LED          (GPIO_LED1)
 
+/*
+ * Static functions prototypes
+ */
 static void BLE_acceleration_status_changed(const struct bt_gatt_attr *attr, uint16_t value);
 static void BLE_angular_rate_status_changed(const struct bt_gatt_attr *attr, uint16_t value);
 static void BLE_temperature_status_changed(const struct bt_gatt_attr *attr, uint16_t value);
@@ -25,7 +28,9 @@ static void on_connected(struct bt_conn *conn, uint8_t err);
 static void on_disconnected(struct bt_conn *conn, uint8_t reason);
 
 
-/* BLE Service Declaration */
+/* 
+ * BLE Service Declaration 
+ */
 BT_GATT_SERVICE_DEFINE(ble_service,
 BT_GATT_PRIMARY_SERVICE(BLE_UUID_VAL),
 	BT_GATT_CHARACTERISTIC(BLE_UUID_ACCELERATION_VAL,
@@ -54,6 +59,9 @@ BT_GATT_PRIMARY_SERVICE(BLE_UUID_VAL),
 		    BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
 );
 
+/*
+ * Local objects
+ */
 static uint8_t char_notify_status[BLE_CHAR_MAX];
 
 static struct bt_le_adv_param *adv_param = BT_LE_ADV_PARAM((BT_LE_ADV_OPT_CONNECTABLE|BT_LE_ADV_OPT_USE_IDENTITY), /* Connectable advertising and use identity address */
@@ -76,6 +84,13 @@ struct bt_conn_cb connection_callbacks = {
     .disconnected           = on_disconnected,  
 };
 
+/*!	
+ * \brief BLE initialization function
+ *
+ * \param[in] None
+ *
+ * \retval None
+ */
 void BLE_Init(void)
 {
     bt_enable(NULL);
@@ -83,6 +98,13 @@ void BLE_Init(void)
     bt_le_adv_start(adv_param, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 }
 
+/*!	
+ * \brief Task to handle BLE notificcations
+ *
+ * \param[in] None
+ *
+ * \retval None
+ */
 void BLE_Thread(void)
 {
     Pedometer_Results_t data;
@@ -115,27 +137,41 @@ void BLE_Thread(void)
     }
 }
 
-
+/*
+ * Callback for acceleration configuration change
+ */
 static void BLE_acceleration_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_ACCELERATION] = (value == BT_GATT_CCC_NOTIFY);
 }
 
+/*
+ * Callback for angfular rate configuration change
+ */
 static void BLE_angular_rate_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_ANGULAR_RATE] = (value == BT_GATT_CCC_NOTIFY);
 }
 
+/*
+ * Callback for temperature configuration change
+ */
 static void BLE_temperature_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_TEMPERATURE] = (value == BT_GATT_CCC_NOTIFY);
 }
 
+/*
+ * Callback for steps configuration change
+ */
 static void BLE_steps_status_changed(const struct bt_gatt_attr *attr, uint16_t value)
 {
     char_notify_status[BLE_CHAR_STEPS] = (value == BT_GATT_CCC_NOTIFY);
 }
 
+/*
+ * Connection callback
+ */
 static void on_connected(struct bt_conn *conn, uint8_t err)
 {
 	if (err) {
@@ -148,6 +184,9 @@ static void on_connected(struct bt_conn *conn, uint8_t err)
 	Gpio_LedWrite(BLE_CON_STATUS_LED, GPIO_ON);
 }
 
+/*
+ * Cisconnection callback
+ */
 static void on_disconnected(struct bt_conn *conn, uint8_t reason)
 {
 	printk("Disconnected (reason %u)\n", reason);
