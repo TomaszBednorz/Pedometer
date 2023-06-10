@@ -28,7 +28,7 @@ static void BLE_OnDisconnected(struct bt_conn *conn, uint8_t reason);
 /* 
  * BLE Service Declaration 
  */
-BT_GATT_SERVICE_DEFINE(ble_service,
+BT_GATT_SERVICE_DEFINE(BLE_services,
 BT_GATT_PRIMARY_SERVICE(BLE_UUID_VAL),
 	BT_GATT_CHARACTERISTIC(BLE_UUID_ACCELERATION_VAL,
 			       BT_GATT_CHRC_NOTIFY,
@@ -59,7 +59,7 @@ BT_GATT_PRIMARY_SERVICE(BLE_UUID_VAL),
 /*
  * Local objects
  */
-static uint8_t char_notify_status[BLE_CHAR_MAX];
+static uint8_t BLE_CharNotifyStatus[BLE_CHAR_MAX];
 
 static struct bt_le_adv_param *adv_param = BT_LE_ADV_PARAM((BT_LE_ADV_OPT_CONNECTABLE|BT_LE_ADV_OPT_USE_IDENTITY), /* Connectable advertising and use identity address */
                 800, /*Min Advertising Interval 500ms (800*0.625ms) */
@@ -76,7 +76,7 @@ static const struct bt_data sd[] = {
 	BT_DATA_BYTES(BT_DATA_UUID128_ALL, BLE_UUID_SERVICE),
 };
 
-struct bt_conn_cb connection_callbacks = {
+struct bt_conn_cb BLE_ConnectionCallbacks = {
     .connected              = BLE_OnConnected,
     .disconnected           = BLE_OnDisconnected,  
 };
@@ -91,7 +91,7 @@ struct bt_conn_cb connection_callbacks = {
 void BLE_Init(void)
 {
     bt_enable(NULL);
-    bt_conn_cb_register(&connection_callbacks);
+    bt_conn_cb_register(&BLE_ConnectionCallbacks);
     bt_le_adv_start(adv_param, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 }
 
@@ -112,24 +112,24 @@ void BLE_Thread(void)
 
         Pedometer_GetResults(&data);
 
-        if(char_notify_status[BLE_CHAR_ACCELERATION])
+        if(BLE_CharNotifyStatus[BLE_CHAR_ACCELERATION])
         {
-            bt_gatt_notify(NULL, &ble_service.attrs[2], &data.acceleration, sizeof(data.acceleration));
+            bt_gatt_notify(NULL, &BLE_services.attrs[2], &data.acceleration, sizeof(data.acceleration));
         }
 
-        if(char_notify_status[BLE_CHAR_ANGULAR_RATE])
+        if(BLE_CharNotifyStatus[BLE_CHAR_ANGULAR_RATE])
         {
-           bt_gatt_notify(NULL, &ble_service.attrs[4], &data.angular_rate, sizeof(data.angular_rate));
+           bt_gatt_notify(NULL, &BLE_services.attrs[4], &data.angular_rate, sizeof(data.angular_rate));
         }
 
-        if(char_notify_status[BLE_CHAR_TEMPERATURE])
+        if(BLE_CharNotifyStatus[BLE_CHAR_TEMPERATURE])
         {
-            bt_gatt_notify(NULL, &ble_service.attrs[7], &data.temperature, sizeof(data.temperature));
+            bt_gatt_notify(NULL, &BLE_services.attrs[7], &data.temperature, sizeof(data.temperature));
         }
 
-        if(char_notify_status[BLE_CHAR_STEPS])
+        if(BLE_CharNotifyStatus[BLE_CHAR_STEPS])
         {
-           bt_gatt_notify(NULL, &ble_service.attrs[10], &data.steps, sizeof(data.steps));
+           bt_gatt_notify(NULL, &BLE_services.attrs[10], &data.steps, sizeof(data.steps));
         }
     }
 }
@@ -139,7 +139,7 @@ void BLE_Thread(void)
  */
 static void BLE_AccelerationStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
-    char_notify_status[BLE_CHAR_ACCELERATION] = (value == BT_GATT_CCC_NOTIFY);
+    BLE_CharNotifyStatus[BLE_CHAR_ACCELERATION] = (value == BT_GATT_CCC_NOTIFY);
 }
 
 /*
@@ -147,7 +147,7 @@ static void BLE_AccelerationStatusChanged(const struct bt_gatt_attr *attr, uint1
  */
 static void BLE_AngularRateStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
-    char_notify_status[BLE_CHAR_ANGULAR_RATE] = (value == BT_GATT_CCC_NOTIFY);
+    BLE_CharNotifyStatus[BLE_CHAR_ANGULAR_RATE] = (value == BT_GATT_CCC_NOTIFY);
 }
 
 /*
@@ -155,7 +155,7 @@ static void BLE_AngularRateStatusChanged(const struct bt_gatt_attr *attr, uint16
  */
 static void BLE_TemperatureStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
-    char_notify_status[BLE_CHAR_TEMPERATURE] = (value == BT_GATT_CCC_NOTIFY);
+    BLE_CharNotifyStatus[BLE_CHAR_TEMPERATURE] = (value == BT_GATT_CCC_NOTIFY);
 }
 
 /*
@@ -163,7 +163,7 @@ static void BLE_TemperatureStatusChanged(const struct bt_gatt_attr *attr, uint16
  */
 static void BLE_StepsStatusChanged(const struct bt_gatt_attr *attr, uint16_t value)
 {
-    char_notify_status[BLE_CHAR_STEPS] = (value == BT_GATT_CCC_NOTIFY);
+    BLE_CharNotifyStatus[BLE_CHAR_STEPS] = (value == BT_GATT_CCC_NOTIFY);
 }
 
 /*
