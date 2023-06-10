@@ -4,6 +4,10 @@
 
 #include <stdint.h>
 
+/*
+ * Definitions of data types
+ */
+
 typedef struct 
 {
     int16_t x;
