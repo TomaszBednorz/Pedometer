@@ -1,6 +1,9 @@
 #ifndef __PEDOMETER_H_
 #define __PEDOMETER_H_
 
+/*
+ * Definitions of data types
+ */
 
 typedef struct 
 {
@@ -24,6 +27,9 @@ typedef struct
     uint16_t steps;
 }Pedometer_Results_t;
 
+/*
+ * Functions prototypes
+ */
 void Pedometer_GetResults(Pedometer_Results_t *results);
 
 
