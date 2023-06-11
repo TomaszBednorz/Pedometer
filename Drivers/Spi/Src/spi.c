@@ -12,9 +12,9 @@
 const struct device *const dev = DEVICE_DT_GET(SPI1_NODE);
 
 #define SPI1_CS_NODE DT_ALIAS(lsm6dsocs)
-static const struct gpio_dt_spec spi_cs = GPIO_DT_SPEC_GET(SPI1_CS_NODE, gpios);
+static const struct gpio_dt_spec Spi_Cs = GPIO_DT_SPEC_GET(SPI1_CS_NODE, gpios);
 
-struct spi_config config;
+struct spi_config Spi_Config;
 
 static uint8_t buffer_tx[SPI_MAX_BUF_LEN_TX];
 static uint8_t buffer_rx[SPI_MAX_BUF_LEN_RX];
@@ -35,8 +35,8 @@ static struct spi_buf rx_buf[1] =
     }
 };
 
-static struct spi_buf_set tx_set = { .buffers = tx_buf, .count = 1 };
-static struct spi_buf_set rx_set = { .buffers = rx_buf, .count = 1 };
+static struct spi_buf_set Spi_TxSet = { .buffers = tx_buf, .count = 1 };
+static struct spi_buf_set Spi_RxSet = { .buffers = rx_buf, .count = 1 };
 
 /*!	
  * \brief SPI initialization function
@@ -49,24 +49,24 @@ void Spi_Init(void)
 {
     int ret;
 
-    if (!device_is_ready(spi_cs.port)) 
+    if (!device_is_ready(Spi_Cs.port)) 
     {
-        printk("Error: port device %s is not ready\r\n", spi_cs.port->name);
+        printk("Error: port device %s is not ready\r\n", Spi_Cs.port->name);
         return;
     }
 
-    if ((ret=gpio_pin_configure_dt(&spi_cs, GPIO_OUTPUT)) != 0) 
+    if ((ret=gpio_pin_configure_dt(&Spi_Cs, GPIO_OUTPUT)) != 0) 
     {
         printk("Error %d: failed to configure %s pin %d\n",
-        ret, spi_cs.port->name, spi_cs.pin);
+        ret, Spi_Cs.port->name, Spi_Cs.pin);
         return;
     }
 
-    config.frequency = SPI_FREQUENCY;
-    config.operation = SPI_OP_MODE_MASTER | SPI_WORD_SET(SPI_WROD_SIZE);
-    config.slave = SPI_OP_MODE_MASTER;
+    Spi_Config.frequency = SPI_FREQUENCY;
+    Spi_Config.operation = SPI_OP_MODE_MASTER | SPI_WORD_SET(SPI_WROD_SIZE);
+    Spi_Config.slave = SPI_OP_MODE_MASTER;
 
-    gpio_pin_set_dt(&spi_cs, SPI_CS_DISABLE);
+    gpio_pin_set_dt(&Spi_Cs, SPI_CS_DISABLE);
 }
 
 /*!	
@@ -88,9 +88,9 @@ void Spi_TxRx(uint8_t length, uint8_t* tx_buffer, uint8_t* rx_buffer)
     tx_buf[0].len = length;
     rx_buf[0].len = length;
 
-    gpio_pin_set_dt(&spi_cs, SPI_CS_ENABLE);
-    spi_transceive(dev, &config, &tx_set, &rx_set);
-    gpio_pin_set_dt(&spi_cs, SPI_CS_DISABLE);
+    gpio_pin_set_dt(&Spi_Cs, SPI_CS_ENABLE);
+    spi_transceive(dev, &Spi_Config, &Spi_TxSet, &Spi_RxSet);
+    gpio_pin_set_dt(&Spi_Cs, SPI_CS_DISABLE);
 
     for(uint8_t i = 0; i < length; i++)
     {
