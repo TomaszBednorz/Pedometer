@@ -2,7 +2,7 @@
 #define __LSM6DSO_H_
 
 #include <stdint.h>
-#include <lsm6dso_types.h>
+#include "lsm6dso_types.h"
 
 /* 
  * Function prototypes

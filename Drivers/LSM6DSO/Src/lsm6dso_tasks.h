@@ -3,7 +3,7 @@
 
 #include <zephyr/kernel.h>
 
-extern const k_tid_t Lsm6dso_IdThreadInt1;
-extern const k_tid_t Lsm6dso_IdThreadInt2;
+extern const k_tid_t LSM6DSO_IdThreadInt1;
+extern const k_tid_t LSM6DSO_IdThreadInt2;
 
 #endif

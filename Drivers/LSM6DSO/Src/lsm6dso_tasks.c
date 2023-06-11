@@ -12,7 +12,7 @@
 /*
  * Task to handle LSM6DSO intterrupt 1 (pedometer)
  */
-void Lsm6dso_ThreadInt1(void)
+void LSM6DSO_ThreadInt1(void)
 {
     uint8_t status;
 
@@ -39,7 +39,7 @@ void Lsm6dso_ThreadInt1(void)
 /*
  * Task to handle LSM6DSO intterrupt 2 (accelerometer, gyro, temperature sensor)
  */
-void Lsm6dso_ThreadInt2(void)
+void LSM6DSO_ThreadInt2(void)
 {
     uint8_t status;
 
@@ -74,7 +74,7 @@ void Lsm6dso_ThreadInt2(void)
 /*
  * Tasks definisions
  */
-K_THREAD_DEFINE(Lsm6dso_IdThreadInt1, LSM6DSO_THREADS_STACKSIZE, Lsm6dso_ThreadInt1, NULL, NULL, NULL,
+K_THREAD_DEFINE(LSM6DSO_IdThreadInt1, LSM6DSO_THREADS_STACKSIZE, LSM6DSO_ThreadInt1, NULL, NULL, NULL,
 		LSM6DSO_THREAD_INT1_PRIO, 0, 0);
-K_THREAD_DEFINE(Lsm6dso_IdThreadInt2, LSM6DSO_THREADS_STACKSIZE, Lsm6dso_ThreadInt2, NULL, NULL, NULL,
+K_THREAD_DEFINE(LSM6DSO_IdThreadInt2, LSM6DSO_THREADS_STACKSIZE, LSM6DSO_ThreadInt2, NULL, NULL, NULL,
 		LSM6DSO_THREAD_INT2_PRIO, 0, 0);
