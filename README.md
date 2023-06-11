@@ -17,4 +17,4 @@
 - [x] Pedometer(abstraction layer)
 ### Others
 - [x] Comments in the software
-- [ ] Documentation
+- [x] Documentation
