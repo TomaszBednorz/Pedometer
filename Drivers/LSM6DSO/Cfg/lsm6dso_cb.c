@@ -6,10 +6,10 @@
 
 void LSM6DSO_CallbackInt1(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-    k_wakeup(Lsm6dso_IdThreadInt1);
+    k_wakeup(LSM6DSO_IdThreadInt1);
 }
 
 void LSM6DSO_CallbackInt2(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-    k_wakeup(Lsm6dso_IdThreadInt2);
+    k_wakeup(LSM6DSO_IdThreadInt2);
 }

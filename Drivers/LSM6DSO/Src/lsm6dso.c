@@ -1,5 +1,4 @@
 #include "lsm6dso.h"
-#include "lsm6dso_types.h"
 #include "lsm6dso_regs.h"
 #include "lsm6dso_cfg.h"
 #include "lsm6dso_com.h"
