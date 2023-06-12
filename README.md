@@ -1,5 +1,7 @@
 # Pedometer
 
+Project for the class "Methodology of System Design and Modeling 1"
+
 ## 1. Hardware
 - NRF52840 DK
 - LSM6DSO IMU
